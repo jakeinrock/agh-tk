@@ -19,13 +19,13 @@ jobs:
       - name: Checkout main branch from Github
         uses: actions/checkout@v2
 
-      - name: Set up Python 3
+      - name: Set up Node
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 'v16.14.2'
           cache: 'npm'
 
-        - name: Run tests with Mocha
-          run: |
-            cd translation
-            npm test
+      - name: Run tests with Mocha
+        run: |
+          cd translation
+          npm test

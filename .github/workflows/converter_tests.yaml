@@ -1,4 +1,4 @@
-name: Converter tests
+name: Audio tests
 
 on:
   push:
@@ -21,10 +21,10 @@ jobs:
 
       - name: Set up Python 3
         uses: actions/setup-python@v3
-      with:
-        python-version: 3.8.10
+        with:
+          python-version: '3.8.10'
 
-        - name: Run tests with Python
-          run: |
-            cd converter
-            python -m unittest unit_tests.py
+      - name: Run tests with Python
+        run: |
+          cd audio_service
+          python -m unittest unit_tests.py
