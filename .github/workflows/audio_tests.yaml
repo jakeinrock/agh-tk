@@ -27,4 +27,5 @@ jobs:
       - name: Run tests with Python
         run: |
           cd audio_service
+          pip install -r requirements.txt
           python -m unittest unit_tests.py
