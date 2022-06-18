@@ -3,6 +3,7 @@ import os
 import sys
 import subprocess
 
+
 class ConverterCallback():
     log_name: str
     exchange: str
@@ -45,11 +46,11 @@ class ConverterCallback():
             logger.info(f'Published Message: {message}')
 
     @staticmethod
-    def convert(file, logger) -> str:
+    def convert(file, logger, path='/host/extracted') -> str:
         filename = os.path.basename(file)
         name, ext = os.path.splitext(filename)
 
-        output_dir = f"/host/extracted/{ext}-converted"
+        output_dir = os.path.join(path, f"{ext}-converted")
         if not os.path.isdir(output_dir):
             os.makedirs(output_dir, exist_ok=True)
 

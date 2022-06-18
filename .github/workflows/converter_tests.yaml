@@ -1,0 +1,30 @@
+name: Converter tests
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build and Test
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main branch from Github
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3
+        uses: actions/setup-python@v3
+      with:
+        python-version: 3.8.10
+
+        - name: Run tests with Python
+          run: |
+            cd converter
+            python -m unittest unit_tests.py

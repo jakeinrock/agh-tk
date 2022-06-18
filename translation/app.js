@@ -1,5 +1,5 @@
 import amqp from 'amqplib'
-import translate from 'translate-google'
+import {getTranslations} from "./translation.js";
 
 const connection = await amqp.connect('amqp://rabbitmq')
 const channel = await connection.createChannel()
@@ -13,7 +13,7 @@ function shiftLeft(array) {
 channel.consume('words.translations', async message => {
     const request = JSON.parse(message.content.toString())
     const languages = request.languages ?? []
-    const translations = await Promise.all(languages.map(lang => translate(request.phrase, { from: 'pl', to: lang })))
+    const translations = await getTranslations(request.phrase, languages)
     request.words.push(...translations)
 
     console.log(`translations for ${request.phrase}: ${translations}`)
