@@ -1,4 +1,4 @@
-FROM python:3
+FROM python:3.10-slim-buster
 
 RUN mkdir -p /wordsServices_textExtractor_config
 
@@ -10,7 +10,7 @@ WORKDIR /textExtractor
 
 COPY ./textExtractor .
 
-RUN pip install pika
+COPY ./textExtractor/requirements.txt ./requirements.txt
+RUN pip3 install -r requirements.txt
 
-
-CMD [ "python", "textExtractor_run.py" ]
+CMD ["python", "textExtractor_run.py"]
