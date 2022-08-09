@@ -1,20 +1,20 @@
 import pytest
 
-import Typos_functions
+from utils import find_synonyms
 
 @pytest.fixture
 def run_test():
     pol = ['ą', 'ę', 'ó', 'ź', 'ł', 'ń', 'ś']
-    result = Typos_functions.create_typos_list(words=['wir'])
+    result = find_synonyms(words=['kot'])
     for word in result:
         for pl in pol:
             if pl in word:
-                word = word.replace(pl,'x')
+                result.remove(word)
     result = list(dict.fromkeys(result))
 
     return result
 
 def test(run_test):
 
-    expected = ['wir', 'sir', 'wiv', 'cir', 'wlr', 'wmr']
-    assert len(run_test) == len(expected)
+    expected = ['kot', 'mruczek', 'dachowiec']
+    assert run_test == expected
