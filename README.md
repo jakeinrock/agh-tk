@@ -20,9 +20,10 @@ You can access the app at
 
     http://localhost:3000/
 
-![app-screen](./app-docs/home.jpg)
+![app-screen](./app-docs/home.JPG)
 
-![app-screen](./app-docs/results.jpg)
+
+![app-screen](./app-docs/results.JPG)
 
 ## Architecture diagram
 
