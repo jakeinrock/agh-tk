@@ -1,8 +1,8 @@
-FROM python:3
+FROM python:3.10-slim-buster
 
-RUN mkdir -p /wordsServices_textExtractor_config
+RUN mkdir -p /PythonServicesConfig
 
-COPY ./wordsServices_textExtractor_config ./wordsServices_textExtractor_config
+COPY ./PythonServicesConfig ./PythonServicesConfig
 
 RUN mkdir -p /wordsForms
 
@@ -10,7 +10,7 @@ WORKDIR /wordsForms
 
 COPY ./wordsForms .
 
-RUN pip install pika
-RUN pip install morfeusz2
+COPY ./wordsForms/requirements.txt ./requirements.txt
+RUN pip3 install -r requirements.txt
 
-CMD [ "python", "wordForms_run.py" ]
+CMD ["python", "run.py"]
