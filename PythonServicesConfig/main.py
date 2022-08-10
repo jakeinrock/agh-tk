@@ -2,6 +2,8 @@ import time
 import pika
 import json
 
+import pika.exceptions
+
 from .utils import create_logger
 
 class ConnectToChannel:
@@ -20,13 +22,14 @@ class ConnectToChannel:
         flag = 0
         while flag == 0:
             try:
+                time.sleep(5.0)
                 self._connection = pika.BlockingConnection(pika.ConnectionParameters(host=self.host))
                 self._channel = self._connection.channel()
 
                 self.logger.info('Connected to channel')
                 flag = 1
             except pika.exceptions.AMQPConnectionError:
-                self.logger.warning('Cannot connect to channel - retrying in 5 seconds...')
+                self.logger.warning('Cannot connect to channel - retrying in 10 seconds...')
                 time.sleep(5.0)
 
         self._startserver()

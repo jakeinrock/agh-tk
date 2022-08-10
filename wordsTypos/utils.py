@@ -5,10 +5,11 @@ def create_typos(words):
     for word in words:
 
         index = 0
-        word.lower()
+        flag = True
+        word = word.lower()
         local_typos = []
 
-        while len(local_typos) < len(word):
+        while flag is True:
             typo = generate_typos(word, index)
 
             if typo in local_typos or typo == word:
@@ -16,14 +17,15 @@ def create_typos(words):
 
             else:
                 local_typos.append(typo)
-                index += 1
+                index = index + 1
+                if index == len(word):
+                    flag = False
 
         for local in local_typos:
             global_typos.append(local)
 
-        local_typos = []
-
     return global_typos
+
 
 def generate_typos(word: str, index: int):
     """Generating typos"""
