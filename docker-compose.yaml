@@ -23,192 +23,192 @@ services:
       timeout: 10s
       retries: 30
 
-#   textanalyzer.worker:
-#     image: ${DOCKER_REGISTRY-}textanalyzerworker
-#     container_name: textanalyzer
-#     build:
-#       context: ./textAnalyzer/
-#       dockerfile: TextAnalyzer.Worker/Dockerfile
-#     environment:
-#       - DOTNET_ENVIRONMENT=Production
-#       - WorkerSettings__Hostname=rabbitmq
-#       - WorkerSettings__Port=5672
-#     depends_on:
-#       rabbitmq:
-#         condition: service_healthy
-#     deploy:
-#       resources:
-#         limits:
-#           memory: 512M
+  textanalyzer.worker:
+    image: ${DOCKER_REGISTRY-}textanalyzerworker
+    container_name: textanalyzer
+    build:
+      context: ./textAnalyzer/
+      dockerfile: TextAnalyzer.Worker/Dockerfile
+    environment:
+      - DOTNET_ENVIRONMENT=Production
+      - WorkerSettings__Hostname=rabbitmq
+      - WorkerSettings__Port=5672
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 512M
 
-#   scraper:
-#     container_name: scraper
-#     build: ./scraper
-#     depends_on:
-#       rabbitmq:
-#         condition: service_healthy
-#     volumes:
-#       - ./:/host
-#     deploy:
-#       resources:
-#         limits:
-#           memory: 512M
+  scraper:
+    container_name: scraper
+    build: ./scraper
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    volumes:
+      - ./:/host
+    deploy:
+      resources:
+        limits:
+          memory: 512M
 
-  # text_extractor:
-  #   container_name: text_extractor
-  #   build:
-  #     context: .
-  #     dockerfile: ./textExtractor/Dockerfile
-  #   restart: on-failure
-  #   depends_on:
-  #     rabbitmq:
-  #       condition: service_healthy
-  #   volumes:
-  #     - ./:/host
-  #   deploy:
-  #     resources:
-  #       limits:
-  #         memory: 512M
+  text_extractor:
+    container_name: text_extractor
+    build:
+      context: .
+      dockerfile: ./textExtractor/Dockerfile
+    restart: on-failure
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    volumes:
+      - ./:/host
+    deploy:
+      resources:
+        limits:
+          memory: 512M
 
-#   frontend:
-#     container_name: frontend
-#     build: ./frontend
-#     environment:
-#       CHOKIDAR_USEPOLLING: "true"
-#     volumes:
-#       - /app/node_modules
-#       - ./frontend:/app
-#     ports:
-#       - 3000:3000
-#     depends_on:
-#       rabbitmq:
-#         condition: service_healthy
-#     deploy:
-#       resources:
-#         limits:
-#           memory: 768M
+  frontend:
+    container_name: frontend
+    build: ./frontend
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+    volumes:
+      - /app/node_modules
+      - ./frontend:/app
+    ports:
+      - 3000:3000
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 768M
 
-#   ocr_service:
-#     container_name: ocr_service
-#     build: ./ocr_service
-#     restart: on-failure
-#     depends_on:
-#       rabbitmq:
-#         condition: service_healthy
-#     volumes:
-#       - ./:/host
-#     deploy:
-#       resources:
-#         limits:
-#           memory: 512M
+  ocr_service:
+    container_name: ocr_service
+    build: ./ocr_service
+    restart: on-failure
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    volumes:
+      - ./:/host
+    deploy:
+      resources:
+        limits:
+          memory: 512M
 
-#   odt_service:
-#     container_name: odt_service
-#     build: ./odt_service
-#     restart: on-failure
-#     depends_on:
-#       rabbitmq:
-#         condition: service_healthy
-#     volumes:
-#       - ./:/host
-#     deploy:
-#       resources:
-#         limits:
-#           memory: 512M
+  odt_service:
+    container_name: odt_service
+    build: ./odt_service
+    restart: on-failure
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    volumes:
+      - ./:/host
+    deploy:
+      resources:
+        limits:
+          memory: 512M
 
-#   pdf_service:
-#     container_name: pdf_service
-#     build: ./pdf_service
-#     restart: on-failure
-#     depends_on:
-#       rabbitmq:
-#         condition: service_healthy
-#     volumes:
-#       - ./:/host
-#     deploy:
-#       resources:
-#         limits:
-#           memory: 512M
+  pdf_service:
+    container_name: pdf_service
+    build: ./pdf_service
+    restart: on-failure
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    volumes:
+      - ./:/host
+    deploy:
+      resources:
+        limits:
+          memory: 512M
 
-#   microsoftservice:
-#     image: ${DOCKER_REGISTRY-}microsoftservice
-#     container_name: microsoft_service
-#     build:
-#       context: ./microsoft_service/
-#       dockerfile: microsoftService/Dockerfile
-#     environment:
-#       - DOTNET_ENVIRONMENT=Production
-#       - WorkerSettings__Hostname=rabbitmq
-#       - WorkerSettings__Port=5672
-#     depends_on:
-#       rabbitmq:
-#         condition: service_healthy
-#     volumes:
-#       - ./:/host
-#     deploy:
-#       resources:
-#         limits:
-#           memory: 512M
+  microsoftservice:
+    image: ${DOCKER_REGISTRY-}microsoftservice
+    container_name: microsoft_service
+    build:
+      context: ./microsoft_service/
+      dockerfile: microsoftService/Dockerfile
+    environment:
+      - DOTNET_ENVIRONMENT=Production
+      - WorkerSettings__Hostname=rabbitmq
+      - WorkerSettings__Port=5672
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    volumes:
+      - ./:/host
+    deploy:
+      resources:
+        limits:
+          memory: 512M
 
-#   state_service:
-#     container_name: state_service
-#     build: ./state_service
-#     restart: on-failure
-#     depends_on:
-#       rabbitmq:
-#         condition: service_healthy
-#     volumes:
-#       - ./:/host
-#     deploy:
-#       resources:
-#         limits:
-#           memory: 512M
+  state_service:
+    container_name: state_service
+    build: ./state_service
+    restart: on-failure
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    volumes:
+      - ./:/host
+    deploy:
+      resources:
+        limits:
+          memory: 512M
 
-#   archive_service:
-#     container_name: archive_service
-#     build: ./archive_service
-#     restart: on-failure
-#     depends_on:
-#       rabbitmq:
-#         condition: service_healthy
-#     volumes:
-#       - ./:/host
-#     deploy:
-#       resources:
-#         limits:
-#           memory: 512M
+  archive_service:
+    container_name: archive_service
+    build: ./archive_service
+    restart: on-failure
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    volumes:
+      - ./:/host
+    deploy:
+      resources:
+        limits:
+          memory: 512M
 
-#   video_service:
-#     container_name: video_service
-#     build: ./video_service
-#     restart: on-failure
-#     depends_on:
-#       rabbitmq:
-#         condition: service_healthy
-#     environment:
-#       - OUTPUT_DIR=/host/extracted/output/
-#     volumes:
-#       - ./:/host
-#     deploy:
-#       resources:
-#         limits:
-#           memory: 512M
+  video_service:
+    container_name: video_service
+    build: ./video_service
+    restart: on-failure
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      - OUTPUT_DIR=/host/extracted/output/
+    volumes:
+      - ./:/host
+    deploy:
+      resources:
+        limits:
+          memory: 512M
 
-  # audio_service:
-  #   container_name: audio_service
-  #   build:
-  #     context: .
-  #     dockerfile: ./audio_service/Dockerfile
-  #   restart: on-failure
-  #   depends_on:
-  #     rabbitmq:
-  #       condition: service_healthy
-  #   volumes:
-  #     - ./:/host
-  #   deploy:
-  #     resources:
-  #       limits:
-  #         memory: 512M
+  audio_service:
+    container_name: audio_service
+    build:
+      context: .
+      dockerfile: ./audio_service/Dockerfile
+    restart: on-failure
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    volumes:
+      - ./:/host
+    deploy:
+      resources:
+        limits:
+          memory: 512M
 
   converter:
     container_name: converter
@@ -226,61 +226,61 @@ services:
         limits:
           memory: 512M
 
-  # words_typos:
-  #   container_name: words_typos
-  #   build:
-  #     context: .
-  #     dockerfile: ./wordsTypos/Dockerfile
-  #   restart: on-failure
-  #   depends_on:
-  #     rabbitmq:
-  #       condition: service_healthy
-  #   volumes:
-  #     - ./:/host
-  #   deploy:
-  #     resources:
-  #       limits:
-  #         memory: 512M
+  words_typos:
+    container_name: words_typos
+    build:
+      context: .
+      dockerfile: ./wordsTypos/Dockerfile
+    restart: on-failure
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    volumes:
+      - ./:/host
+    deploy:
+      resources:
+        limits:
+          memory: 512M
 
-#   words_translations:
-#     container_name: words_translations
-#     build: ./translation
-#     restart: on-failure
-#     depends_on:
-#       rabbitmq:
-#         condition: service_healthy
+  words_translations:
+    container_name: words_translations
+    build: ./translation
+    restart: on-failure
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
 
-  # words_forms:
-  #   container_name: words_forms
-  #   build:
-  #     context: .
-  #     dockerfile: ./wordsForms/Dockerfile
-  #   restart: on-failure
-  #   depends_on:
-  #     rabbitmq:
-  #       condition: service_healthy
-  #   volumes:
-  #     - ./:/host
-  #   deploy:
-  #     resources:
-  #       limits:
-  #         memory: 512M
+  words_forms:
+    container_name: words_forms
+    build:
+      context: .
+      dockerfile: ./wordsForms/Dockerfile
+    restart: on-failure
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    volumes:
+      - ./:/host
+    deploy:
+      resources:
+        limits:
+          memory: 512M
 
-  # words_synonyms:
-  #   container_name: words_synonyms
-  #   build:
-  #     context: .
-  #     dockerfile: ./wordsSynonyms/Dockerfile
-  #   restart: on-failure
-  #   depends_on:
-  #     rabbitmq:
-  #       condition: service_healthy
-  #   volumes:
-  #     - ./:/host
-  #   deploy:
-  #     resources:
-  #       limits:
-  #         memory: 512M
+  words_synonyms:
+    container_name: words_synonyms
+    build:
+      context: .
+      dockerfile: ./wordsSynonyms/Dockerfile
+    restart: on-failure
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    volumes:
+      - ./:/host
+    deploy:
+      resources:
+        limits:
+          memory: 512M
 
 volumes:
   rabbitmq_data:

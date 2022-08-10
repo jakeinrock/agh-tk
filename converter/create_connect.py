@@ -12,19 +12,6 @@ from PythonServicesConfig.main import ConnectToChannel
 
 class ConnectConverterToChannel(ConnectToChannel):
     """Customized connection to the channel"""
-    def __init__(self, log_name, exchange, host, queue, mode, routing_key):
-        self.routing_key = routing_key
-
-        super().__init__(log_name, exchange, host, queue, mode)
-
-    def publish(self, message, routing_key, exchange):
-        """Publishing the message"""
-        self._channel.basic_publish(exchange,
-                                    routing_key,
-                                    body=json.dumps(message),
-                                    properties=pika.BasicProperties(
-                                        content_encoding='utf-8')
-                                    )
 
     def callback(self, ch, method, properties, body):
         """Customizng a callback"""
@@ -38,14 +25,14 @@ class ConnectConverterToChannel(ConnectToChannel):
             message["audio"]["filePathInVolume"] = converter_file_path
             message["fileState"]["fileProcessed"] = True
             message["fileState"]["fileProcessingError"] = False
-            self.publish(message, self.host, routing_key="result", exchange="result")
+            self.publish(message, routing_key="result", exchange="result")
             self.logger.info("Message was successfully forwarded with routing key: result")
         except Exception as e:
             message['fileState']['fileProcessed'] = False
             message['fileState']['fileProcessingError'] = True
             self.logger.warning(f'An error occurred while converting or sending with routing key: result, err: {e}')
         finally:
-            self.publish(message, self.host, self.routing_key, self.exchange)
+            self.publish(message, routing_key=self.routing_key, exchange=self.exchange)
             self.logger.info(f'Message was successfully forwarded with routing key: {self.routing_key}')
             self.logger.info(f'Published Message: {message}')
 

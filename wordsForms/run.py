@@ -9,10 +9,10 @@ from utils import forms_generator
 
 if __name__ == "__main__":
 
-    log_name = "wordsForms"
-    exchange = 'words'
-    host = 'rabbitmq'
-    queue = 'words.forms'
-    mode = forms_generator
-
-    ConnectToChannel(log_name, exchange, host, queue, mode)
+    ConnectToChannel(
+        log_name="wordsForms",
+        exchange='words',
+        host='rabbitmq',
+        queue='words.forms',
+        mode=forms_generator,
+        )

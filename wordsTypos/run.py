@@ -9,10 +9,10 @@ from utils import create_typos
 
 if __name__ == "__main__":
 
-    log_name = "wordsTypos"
-    exchange = 'words'
-    host = 'rabbitmq'
-    queue = 'words.typos'
-    mode = create_typos
-
-    ConnectToChannel(log_name, exchange, host, queue, mode)
+    ConnectToChannel(
+        log_name="wordsTypos",
+        exchange='words',
+        host='rabbitmq',
+        queue='words.typos',
+        mode=create_typos,
+    )

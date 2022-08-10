@@ -6,13 +6,15 @@ from .utils import create_logger
 
 class ConnectToChannel:
     """Connecting to the channel with received parameters."""
-    def __init__(self, log_name, exchange, host, queue, mode):
+    def __init__(self, log_name, exchange, host, queue, **kwargs):
 
-        self.log_name = log_name
         self.exchange = exchange
         self.host = host
         self.queue = queue
-        self.mode = mode
+        if 'mode' in kwargs:
+            self.mode = kwargs['mode']
+        if 'routing_key' in kwargs:
+            self.routing_key = kwargs['routing_key']
         self.logger = create_logger(log_name)
 
         flag = 0
@@ -39,9 +41,13 @@ class ConnectToChannel:
         self._channel.start_consuming()
         self.logger.info('Server started waiting for Messages')
 
-    def publish(self, message, routing_key):
+    def publish(self, message, routing_key, **kwargs):
+        if 'exchange' not in kwargs:
+            exchange = self.exchange
+        else:
+            exchange = kwargs['exchange']
         """Publishing the message"""
-        self._channel.basic_publish(exchange=self.exchange,
+        self._channel.basic_publish(exchange=exchange,
                                     routing_key=routing_key,
                                     body=json.dumps(message),
                                     properties=pika.BasicProperties(
